@@ -22,10 +22,10 @@ class OrderTableSeeder extends Seeder
             $randomProducts = $products->random(rand(1, 3));
             
             $order = App\Order::create([
+                'user_id' => $users->random(1)->first()->id,
                 'total' => $randomProducts->sum('price'),
             ]);
             $order->products()->attach($randomProducts);
-            $order->user()->associate($users->random(1));
         }
 
     }
