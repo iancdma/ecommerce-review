@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Order;
-use App\Product;
+use App\User;
 use Illuminate\Http\Request;
 
-class OrderController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +14,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::with('products')->get();
-        return $orders;
+        return User::all();
     }
 
     /**
@@ -37,29 +35,27 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        $request->input('products');
-        // return Product::find($request->input('product'))->first();
-        return request()->all();
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Order  $order
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(Order $order)
+    public function show(User $user)
     {
-        return Order::findOrFail($order)->first();
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Order  $order
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit(Order $order)
+    public function edit(User $user)
     {
         //
     }
@@ -68,10 +64,10 @@ class OrderController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Order  $order
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Order $order)
+    public function update(Request $request, User $user)
     {
         //
     }
@@ -79,10 +75,10 @@ class OrderController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Order  $order
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Order $order)
+    public function destroy(User $user)
     {
         //
     }

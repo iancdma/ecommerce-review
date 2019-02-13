@@ -19,7 +19,7 @@ class ProductTableSeeder extends Seeder
         for($i = 0; $i < 50; $i++) {
             $product = App\Product::create([
                 'name' => $faker->company,
-                'price' => $faker->randomDigitNotNull,
+                'price' => $faker->numberBetween($min = 1000, $max = 9000),
             ]);
             $product->categories()->attach($categories->random(rand(1, 3)));
         }
