@@ -26,7 +26,7 @@ class OrderController extends Controller
      */
     public function create()
     {
-        //
+        //  
     }
 
     /**
@@ -37,9 +37,16 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        $request->input('products');
-        // return Product::find($request->input('product'))->first();
-        return request()->all();
+        $products = Product::findMany($request->input('products'));
+
+        $order = Order::create([
+            // 'user_id' => auth()->id,
+            'user_id' => $request->input('user_id'),
+            'total' => $products->sum('price')
+        ]);
+
+        $order->products()->attach($products);
+        return Order::with('products')->find($order->id);
     }
 
     /**
@@ -61,7 +68,7 @@ class OrderController extends Controller
      */
     public function edit(Order $order)
     {
-        //
+
     }
 
     /**

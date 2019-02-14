@@ -14,14 +14,14 @@ class ProductTableSeeder extends Seeder
     public function run()
     {
         $faker = Faker\Factory::create();
-        $categories = Category::all();
 
-        for($i = 0; $i < 50; $i++) {
-            $product = App\Product::create([
+        for ($i = 0; $i < 50; $i++) {
+            App\Product::create([
                 'name' => $faker->company,
                 'price' => $faker->numberBetween($min = 1000, $max = 9000),
+                'category_id' => Category::inRandomOrder()->first()->id,
             ]);
-            $product->categories()->attach($categories->random(rand(1, 3)));
+
         }
     }
 }

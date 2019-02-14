@@ -8,13 +8,19 @@ use App\Order;
 
 class Product extends Model
 {
-    protected $guarded = [];
-    
-    public function categories() {
-        return $this->belongsToMany(Category::class);
+    protected $fillable = [
+        'name',
+        'price',
+        'category_id'
+    ];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 
-    public function orders() {
+    public function orders()
+    {
         return $this->belongsToMany(Order::class);
     }
 }

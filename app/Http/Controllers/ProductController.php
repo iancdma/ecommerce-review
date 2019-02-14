@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Product;
 use App\Category;
 use Illuminate\Http\Request;
+use App\Http\Requests\ProductRequest;
 
 class ProductController extends Controller
 {
@@ -15,18 +16,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
         return Product::all();
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -35,16 +25,11 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Product $product, ProductRequest $request)
     {
-        $cat = Category::findOrFail($request->category);
-
-        $product = Product::create([
-            'name' => $request->name,
-            'price'=> $request->price,
-        ]);
-        $product->categories()->attach($cat);
-        return $request;
+        $validated = $request->validated();
+        $product = Product::findorFail($product->id);
+        return $product;
     }
 
     /**
@@ -53,19 +38,10 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Product $product)
     {
-        return Product::findOrFail($id);   
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Product $product)
-    {
+        // $prod = Product::findOrFail($product->id);
+        return $product;
     }
 
     /**
@@ -75,9 +51,14 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(Product $product, ProductRequest $request)
     {
-        //
+        $validated = $request->validated();
+
+        // $prod = Product::findOrFail($product->id);
+        $product->update($validated);
+
+        return $product;
     }
 
     /**
@@ -88,6 +69,8 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        // $prod = Product::findOrFail($product->id);
+        $product->delete();
+        return response()->json("Deletion successful.");
     }
 }
