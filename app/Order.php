@@ -20,4 +20,15 @@ class Order extends Model
         return $this->belongsToMany(Product::class);
     }
 
+    public function setTotalAttribute($total) {
+        $this->attributes['total'] = $total;
+    }
+
+    public function updateProducts($products) {
+        $this->products()->detach();
+        $products_new = Product::findOrFail($products);
+        $this->products()->attach($products_new);
+        $this->setTotalAttribute($products_new->sum('price'));
+
+    }
 }

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreOrderRequest;
+use App\Http\Requests\UpdateOrderRequest;
 use App\Order;
 use App\Product;
-use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
@@ -20,32 +21,24 @@ class OrderController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //  
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreOrderRequest $request)
     {
-        $products = Product::findMany($request->input('products'));
+        $validated = $request->validated();
+        $products = Product::findOrFail($validated['products']);
 
         $order = Order::create([
             // 'user_id' => auth()->id,
-            'user_id' => $request->input('user_id'),
+            'user_id' => $validated['user_id'],
             'total' => $products->sum('price')
         ]);
 
         $order->products()->attach($products);
+
         return Order::with('products')->find($order->id);
     }
 
@@ -57,19 +50,9 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        return Order::findOrFail($order)->first();
+        return Order::with('products')->findOrFail($order->id);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Order $order)
-    {
-
-    }
 
     /**
      * Update the specified resource in storage.
@@ -78,9 +61,13 @@ class OrderController extends Controller
      * @param  \App\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Order $order)
+    public function update(UpdateOrderRequest $request, Order $order)
     {
-        //
+        $validated = $request->validated();
+
+        $order->updateProducts($validated['products']);
+
+        return Order::with('products')->find($order->id);
     }
 
     /**
@@ -91,6 +78,7 @@ class OrderController extends Controller
      */
     public function destroy(Order $order)
     {
-        //
+        $order->delete();
+        return response()->json("Deletion successful.");
     }
 }
