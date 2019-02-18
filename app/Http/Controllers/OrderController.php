@@ -32,8 +32,8 @@ class OrderController extends Controller
         $products = Product::findOrFail($validated['products']);
 
         $order = Order::create([
-            // 'user_id' => auth()->id,
-            'user_id' => $validated['user_id'],
+             'user_id' => auth()->user()->id,
+//            'user_id' => $validated['user_id'],
             'total' => $products->sum('price')
         ]);
 
