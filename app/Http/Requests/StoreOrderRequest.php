@@ -13,10 +13,9 @@ class StoreOrderRequest extends FormRequest
      */
     public function authorize()
     {
-//      return false;
+//      return false;c
         return true;
     }
-
     /**
      * Get the validation rules that apply to the request.
      *

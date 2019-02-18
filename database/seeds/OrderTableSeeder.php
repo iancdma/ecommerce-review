@@ -1,9 +1,8 @@
 <?php
 
-use Illuminate\Database\Seeder;
-use App\Product;
 use App\Order;
-use App\User;
+use App\Product;
+use Illuminate\Database\Seeder;
 
 class OrderTableSeeder extends Seeder
 {
@@ -14,19 +13,15 @@ class OrderTableSeeder extends Seeder
      */
     public function run()
     {
-        $faker = Faker\Factory::create();
+        factory(Order::class, 20)->create();
         $products = Product::all();
-        $users = User::all();
 
-        for($i = 0; $i < 20; $i++) {
-            $randomProducts = $products->random(rand(1, 3));
-            
-            $order = App\Order::create([
-                'user_id' => $users->random(1)->first()->id,
-                'total' => $randomProducts->sum('price'),
-            ]);
-            $order->products()->attach($randomProducts);
-        }
-
+        App\Order::all()->each(function ($order) use ($products) {
+            $randomProducts = Product::all()->random(rand(1, 3));
+            $order->products()->attach(
+                $randomProducts
+            );
+            $order->setTotalAttribute($order->products()->get()->sum('price'));
+        });
     }
 }

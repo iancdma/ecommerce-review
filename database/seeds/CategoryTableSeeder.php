@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Seeder;
 use App\Category;
+use Illuminate\Database\Seeder;
 
 class CategoryTableSeeder extends Seeder
 {
@@ -12,12 +12,6 @@ class CategoryTableSeeder extends Seeder
      */
     public function run()
     {
-        $faker = Faker\Factory::create();
-
-        for($i = 0; $i < 10; $i++) {
-            App\Category::create([
-                'name' => $faker->colorName,
-            ]);
-        }
+        factory(Category::class, 10)->create();
     }
 }

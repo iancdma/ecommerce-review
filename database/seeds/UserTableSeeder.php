@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Database\Seeder;
-use App\User;
 use App\Role;
+use App\User;
+use Illuminate\Database\Seeder;
 
 
 class UserTableSeeder extends Seeder
@@ -14,18 +14,9 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
-      $role_customer = Role::where('name', 'customer')->first();
       $role_admin  = Role::where('name', 'admin')->first();
-      $faker = Faker\Factory::create();
-      
-      for($i = 0; $i < 10; $i++) {
-        App\User::create([
-            'name' => $faker->name,
-            'email' => $faker->email,
-            'password' => bcrypt('secret'),
-            'role_id' => $role_customer->id,
-        ]);
-    }
+
+      factory(User::class, 10)->create();
 
       $admin = new User();
       $admin->name = 'Ian';

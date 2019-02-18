@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Product;
-use App\Category;
-use Illuminate\Http\Request;
 use App\Http\Requests\ProductRequest;
+use App\Product;
 
 class ProductController extends Controller
 {
@@ -28,7 +26,7 @@ class ProductController extends Controller
     public function store(Product $product, ProductRequest $request)
     {
         $validated = $request->validated();
-        $product = Product::findorFail($product->id);
+        $product = Product::create($validated);
         return $product;
     }
 
