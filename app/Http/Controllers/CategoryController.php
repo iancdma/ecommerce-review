@@ -52,9 +52,6 @@ class CategoryController extends Controller
         $validated = $request->validated();
         $category->update($validated);
 
-        // $category = Category::findOrFail($id);
-        // $category->fill($request->all());
-
         return response()->json($category);
     }
 
