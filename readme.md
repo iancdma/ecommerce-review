@@ -25,3 +25,6 @@ You're required to create a public repository, that will soon be used for checki
 * Database Representation in JPG/JPEG or PNG format (ERD, Database Schema, etc)
 * Laravel Project Folder
 * API Documentation or Notes (Optional)
+
+
+![Database Schema](https://github.com/iancdma/ecommerce-review/blob/dev/Ecommerce%20ERD.png?raw=true)
